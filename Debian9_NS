@@ -190,8 +190,8 @@ server {
    server_name YOURS_INTERNET_URL.RU;
    root /usr/share/nginx/html;
 
-        ssl_certificate     /etc/letsencrypt/live/aps.romku.ru/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/aps.romku.ru/privkey.pem;
+        ssl_certificate     /etc/letsencrypt/live/YOURS_INTERNET_URL.RU/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/YOURS_INTERNET_URL.RU/privkey.pem;
         ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
         ssl_prefer_server_ciphers on;
         ssl_dhparam /etc/ssl/certs/dhparam.pem;
