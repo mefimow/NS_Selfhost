@@ -202,3 +202,10 @@ S-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
 #сохраняем ctrl+x
 #проверка запуска ngnix
 systemctl status nginx
+
+# получение сертификата
+add-apt-repository ppa:certbot/certbot
+apt-get update
+sudo apt-get install certbot
+certbot certonly --manual
+certbot renew
