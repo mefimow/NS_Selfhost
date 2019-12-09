@@ -149,7 +149,32 @@ chmod +x start.sh
 #
 #после чего можно пробовать заходить http://ip_of_debian:1337 - должен открыться НС и попросить api_secert 
 
+# настраиваем автозапуск
+  nano /etc/systemd/system/nightscout.service
+# вставляем строки
+	[Unit]
+	Description=Nightscout Service      
+	After=network.target
 
+	[Service]
+	Type=simple
+	WorkingDirectory=/opt/nightscout/cgm-remote-monitor
+	ExecStart=/opt/nightscout/cgm-remote-monitor/start.sh
+
+	[Install]
+	WantedBy=multi-user.target
+
+# cохраняем  
+
+# разрешаем автозапуск
+	systemctl daemon-reload
+	systemctl enable nightscout.service
+	systemctl start nightscout.service 
+
+# проверка, запущен ли сервис:
+
+   systemctl status nightscout.service 
+ 
 #обновление переменных среды, если прописали в глобальных
 source /etc/environment
 
