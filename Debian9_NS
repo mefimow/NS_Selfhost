@@ -2,45 +2,67 @@
 #Данное руководство не претендует на полноту и использование best practices, предварительно необходимо установить Debian 9, подключить его к интернету, обновить, пробросить HTTP, HTTPS, SSH
 # все манипуляции проводились под пользователем root. Необходимы минимальные навыки использования редактора nano
 
-#enable ssh for root if nessesary #разрешаем ssh для root если необходимо
+#enable ssh for root if nessesary
+#разрешаем ssh для root если необходимо
+
 cd /etc/ssh
 nano sshd_config
-#add string "PermitRootLogin yes" #добавляем строку "PermitRootLogin yes"
-#save file #сохраняем
+
+#add string "PermitRootLogin yes" 
+#добавляем строку "PermitRootLogin yes"
+
+#save file
+#сохраняем
 
 systemctl restart ssh
 
-#go to putty if u want #переходим для удобства в putty
+#go to putty if u want
+#переходим для удобства в putty
 
 apt-get install sudo
 apt-get -y install curl
 apt-get -y install mc #not necessary  #не обязательно
 
-#for Hyper-V install integration services #для Hyper-V ставим средства интеграции
+#for Hyper-V install integration services 
+#для Hyper-V ставим средства интеграции
+
 nano /etc/initramfs-tools/modules
-#add strings #добавляем строки
+
+#add strings
+#добавляем строки
+
 hv_vmbus
 hv_storvsc
 hv_blkvsc
 hv_netvsc
-#save file #сохраняем
+
+#save file
+#сохраняем
 
 sudo apt-get -y install hyperv-daemons
 update-initramfs -u
 reboot
 
-#for vmware #для vmware
+#for vmware 
+#для vmware
+
 apt-get install -y open-vm-tools open-vm-tools-desktop
 vmware-user-suid-wrapper
 reboot
 
 #validate actual release of mongo https://www.mongodb.com/download-center/community . if the version of mongo is different of 4.2 - actualise it bellow
 #смотрим актуальный релиз mongo https://www.mongodb.com/download-center/community и при наличии более свежей версии меняем значения ниже
+
 curl https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 nano /etc/apt/sources.list.d/mongodb-org-4.2.list
-#add string #добавляем строку 
+
+#add string
+#добавляем строку 
+
 deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.2 main
-#save file #сохраняем
+
+#save file 
+#сохраняем
 
 apt-get update
 apt-get -y install mongodb-org
@@ -48,7 +70,8 @@ systemctl enable mongod
 systemctl start mongod
 
 #create DB - change username and pass
-#создаем БД - имя и пароль свои
+#создаем пользователя БД - имя и пароль свои
+
 mongo
 > use Nightscout
 > db.createUser({user: "username", pwd: "password", roles:["readWrite"]})
@@ -75,6 +98,7 @@ apt-get install -y build-essential
 
 #go to folder where u want to install. In this case /opt
 #Перходим в папку установки - может быть произвольной. В данном варианте /opt
+
 cd /opt 
 mkdir nightscout
 cd nightscout
@@ -82,10 +106,13 @@ git clone https://github.com/nightscout/cgm-remote-monitor.git
 cd cgm-remote-monitor
 npm install --unsafe-perm
 
+#environment
+#переменные среды
 
-#environment  #переменные среды
-#if you want - add to global environment - nano /etc/environment  # можно прописать в глобальных системных переменных nano /etc/environment 
-# or create you own file with environments - nano start.sh   # либо создаем файлик nano start.sh
+#if you want - add to global environment - nano /etc/environment
+# or create you own file with environments - nano start.sh
+# можно прописать в глобальных системных переменных nano /etc/environment 
+# либо создаем файлик nano start.sh
 
 #!/bin/bash
 export DISPLAY_UNITS="mg/dl"
@@ -142,13 +169,15 @@ export THEME=colors
 
 node server.js     # start server
 
-#save file  #сохраняем
+#save file
+#сохраняем
 
 chmod +x start.sh
 ./start.sh
 
 
-#after start ./start.sh in few minutes you must see in loop  #после запуска ./start.sh через несколько минут в цикле должно появится
+#after start ./start.sh in few minutes you must see in loop
+#после запуска ./start.sh через несколько минут в цикле должно появится
 
 #reloading sandbox data
 #all buckets are empty
@@ -163,9 +192,11 @@ chmod +x start.sh
 #after that go to http://ip_of_debian:1337 - NS must open with api_secret dilog box
 #после чего можно пробовать заходить http://ip_of_debian:1337 - должен открыться НС и попросить api_secert 
 
-#installing autorun # настраиваем автозапуск
+#installing autorun 
+# настраиваем автозапуск
   nano /etc/systemd/system/nightscout.service
-# add strings # вставляем строки
+# add strings
+# вставляем строки
 	[Unit]
 	Description=Nightscout Service      
 	After=network.target
@@ -178,23 +209,30 @@ chmod +x start.sh
 	[Install]
 	WantedBy=multi-user.target
 
-# save file # cохраняем  
+#save file
+# cохраняем  
 
-#enable autorun # разрешаем автозапуск
+#enable autorun
+# разрешаем автозапуск
 	systemctl daemon-reload
 	systemctl enable nightscout.service
 	systemctl start nightscout.service 
 
-# verifying if the service is started # проверка, запущен ли сервис:
+# verifying if the service is started
+# проверка, запущен ли сервис:
 
    systemctl status nightscout.service 
  
+#installation and configuration a reverse proxy
+#установка и настройка обратного прокси
 
-# установка и настройка обратного прокси
 	apt-get install nginx
 	systemctl enable nginx
-# конфиг ngnix
+
+#configuration nginx
+#конфиг ngnix
 	nano /etc/nginx/sites-available/default
+#add strings
 #добавляем строки
 
 server {
@@ -235,21 +273,30 @@ server {
 
 
 }
-
+#save ctrl+x
 #сохраняем ctrl+x
 
+# get the certificate
 # получение сертификата
 	sudo apt-get install certbot
 	certbot certonly --webroot --agree-tos --email youmail@mail.com -w /usr/share/nginx/html/ -d YOURS_INTERNET_URL.RU 
 	openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+#in configuration file
 # в конфиг ngnix 
 	nano /etc/nginx/sites-available/default
+
+#in section 'server' add the strings
 #в секцию server добавляем строки
 	ssl_certificate     /etc/letsencrypt/live/YOURS_INTERNET_URL.RU/fullchain.pem;
 	ssl_certificate_key /etc/letsencrypt/live/YOURS_INTERNET_URL.RU/privkey.pem;
-	
+
+#restart nginx
 #перезапуск nginx
 	systemctl reload nginx
+
+#check startup nginx
 #проверка запуска ngnix
 	systemctl status nginx
+
+# NightScout must be available at https://YOURS_INTERNET_URL.RU
 # NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
