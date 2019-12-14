@@ -3,7 +3,7 @@
 #### Requirements: install Debian 9 (min 1 core, 1Gb ram, 10 Gb HDD), connect to internet, update, forward HTTP, HTTPS, SSH if nessesary.  Point your domain or subdomain A-record to the IP address of your server. 
 #### All of operation were made from root
 
-#### Данное руководство не претендует на полноту и использование best practices, предварительно необходимо установить Debian 9 (min 1 core, 1Gb ram, 10 Gb HDD), подключить его к интернету, обновить, пробросить HTTP, HTTPS, SSH, перенаправить А - запись доменна или поддомена на IP адрес сервера.
+#### Данное руководство не претендует на полноту и использование best practices, предварительно необходимо установить Debian 9 (min 1 core, 1Gb ram, 10 Gb HDD), подключить его к интернету, обновить, пробросить HTTP, HTTPS, SSH при необходимости. Перенаправить А - запись доменна или поддомена на IP адрес сервера.
 #### Все манипуляции проводились под пользователем root.
 #### Использование данной иструкции подразумевает наличие навыков системного администрирования nix систем и владение необходимыми сетевыми технологиями.  
 
@@ -314,10 +314,10 @@ check startup nginx / проверка запуска ngnix
 	
 `systemctl status nginx`
 
-### NightScout must be available at https://YOURS_INTERNET_URL.RU
-### NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
+## NightScout must be available at https://YOURS_INTERNET_URL.RU
+## NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
 
-#### ANNEX
+#### ANNEX A
 
 ####  Installation of hypervisor integration servcies / Установка средств интеграции с гипервизором (не обязательно)
 
