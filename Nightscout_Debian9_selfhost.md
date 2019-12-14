@@ -314,8 +314,8 @@ check startup nginx / проверка запуска ngnix
 	
 `systemctl status nginx`
 
-## NightScout must be available at https://YOURS_INTERNET_URL.RU
-## NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
+ NightScout must be available at https://YOURS_INTERNET_URL.RU
+ NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
 
 #### ANNEX A
 
