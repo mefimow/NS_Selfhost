@@ -281,14 +281,8 @@ server {
 ```
 
 save / сохраняем `ctrl+x`
-#### 8. Перенаправление домена/поддомена на ip адрес сервера
-Чтобы сервер был доступен по доменному имени, в панели управления хостинга в редакторе DNS зон необходимо создать запись.
-Добавьте новую запись со следующими параметрами: 
-* имя: YOURS_INTERNET_URL.RU.    **точка в конце обязательна!**
-* тип: A значение (IP/host.) 
-* IP-адрес сервера : server ip
 
-#### 9. Get the certificate / Получение сертификата
+#### 8. Get the certificate / Получение сертификата
 	
 ```	
 sudo apt-get install certbot
@@ -314,8 +308,8 @@ check startup nginx / проверка запуска ngnix
 	
 `systemctl status nginx`
 
- NightScout must be available at https://YOURS_INTERNET_URL.RU
- NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
+#### NightScout must be available at https://YOURS_INTERNET_URL.RU
+#### NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
 
 #### ANNEX A
 
@@ -346,3 +340,9 @@ apt-get install -y open-vm-tools open-vm-tools-desktop
 vmware-user-suid-wrapper
 reboot
 ```
+#### Перенаправление домена/поддомена на ip адрес сервера
+Чтобы сервер был доступен по доменному имени, в панели управления хостинга в редакторе DNS зон необходимо создать запись.
+Добавьте новую запись со следующими параметрами: 
+* имя: YOURS_INTERNET_URL.RU.    **точка в конце обязательна!**
+* тип: A значение (IP/host.) 
+* IP-адрес сервера : server ip
