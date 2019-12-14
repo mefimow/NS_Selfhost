@@ -1,11 +1,20 @@
 ### Setup NightScout Debian 9 (Stretch) / Установка NightScout на Selfhost (Debian 9 'Stretch') 
 ---
-#### Requirements: install Debian 9, connect to internet, update, forward HTTP, HTTPS, SSH if nessesary. All of operation were made from root
+#### Requirements: install Debian 9 (min 1 core, 1Gb ram, 10 Gb HDD), connect to internet, update, forward HTTP, HTTPS, SSH if nessesary.  Point your domain or subdomain A-record to the IP address of your server. 
+#### All of operation were made from root
 
-#### Данное руководство не претендует на полноту и использование best practices, предварительно необходимо установить Debian 9, подключить его к интернету, обновить, пробросить HTTP, HTTPS, SSH
+#### Данное руководство не претендует на полноту и использование best practices, предварительно необходимо установить Debian 9 (min 1 core, 1Gb ram, 10 Gb HDD), подключить его к интернету, обновить, пробросить HTTP, HTTPS, SSH, перенаправить А - запись доменна или поддомена на IP адрес сервера.
 #### Все манипуляции проводились под пользователем root. Необходимы минимальные навыки использования редактора nano
+#### Использование данной иструкции подразумевает наличие навыков системного администрирования nix систем и владение необходимыми сетевыми технологиями.  
 
 ---
+	
+
+```
+apt-get install sudo
+apt-get -y install curl
+apt-get -y install mc #not necessary  #не обязательно
+```
 
 #### 1. Enable ssh for root if nessesary / Разрешаем ssh для root если необходимо
   
@@ -24,38 +33,9 @@ systemctl restart ssh
 
 go to putty if u want/переходим для удобства в putty
 
-#### 2. Установка средств интеграции с гипервизором (не обязательно)
 
-```
-apt-get install sudo
-apt-get -y install curl
-apt-get -y install mc #not necessary  #не обязательно
-```
-##### Hyper-V install integration services / Для Hyper-V ставим средства интеграции
 
-```
-nano /etc/initramfs-tools/modules
-```
-add strings/добавляем строки
-```
-hv_vmbus
-hv_storvsc
-hv_blkvsc
-hv_netvsc
-```
-save file/сохраняем `ctrl+x`
-```
-sudo apt-get -y install hyperv-daemons
-update-initramfs -u
-reboot
-```
-##### Vmware  tools / Для vmware 
-```
-apt-get install -y open-vm-tools open-vm-tools-desktop
-vmware-user-suid-wrapper
-reboot
-```
-#### 3. Setup Mongo / Установка Mongo
+#### 2. Setup Mongo / Установка Mongo
 
 Validate actual release of mongo https://www.mongodb.com/download-center/community . If the version of mongo is different of 4.2 - actualise it bellow
 
@@ -83,7 +63,7 @@ mongo
 > db.createUser({user: "username", pwd: "password", roles:["readWrite"]})
 > quit()
 ```
-#### 4. Import data from Heroku/Импорт данных из БД Heroku
+#### 3. Import data from Heroku-Azure/Импорт данных из Heroku-Azure
 
 export database from existing database on mongo. adress, user, pass and port you can get from environment (heroku or azure) of existing NS **mongoexport must be run from your OS command shell, not in mongo shell.**
 
@@ -93,7 +73,7 @@ export database from existing database on mongo. adress, user, pass and port you
 mongodump -h _some_adress_from_env.mlab.com --port _port_from_env_ -d _DB_name_from_env_  --username _user_from_env_ --password _password_from_env_
 mongorestore -d Nightscout dump/_DB_name_from_env_
 ```
-#### 5. Setup Nightscout / Установка Nightscout
+#### 4. Setup Nightscout / Установка Nightscout
 ```
 apt-get -y install git
 
@@ -117,7 +97,7 @@ git clone https://github.com/nightscout/cgm-remote-monitor.git
 cd cgm-remote-monitor
 npm install --unsafe-perm
 ```
-#### 6. Environment / Переменные среды
+#### 5. Environment / Переменные среды
 
 If you want - add to global environment - nano /etc/environment or create you own file with environments - nano start.sh
 
@@ -216,7 +196,7 @@ after that go to http://ip_of_debian:1337 - NS must open with api_secret dilog b
 
 ----
 
-#### 7. Installing autorun / Настраиваем автозапуск
+#### 6. Installing autorun / Настраиваем автозапуск
   
   `nano /etc/systemd/system/nightscout.service`
   
@@ -246,7 +226,7 @@ verifying if the service is started / проверка, запущен ли се
 
 `systemctl status nightscout.service`
  
-#### 8. Installation and configuration a reverse proxy / Установка и настройка обратного прокси
+#### 7. Installation and configuration a reverse proxy / Установка и настройка обратного прокси
 
 ```
 apt-get install nginx
@@ -301,14 +281,14 @@ server {
 ```
 
 save / сохраняем `ctrl+x`
-#### 9. Перенаправление домена/поддомена на ip адрес сервера
+#### 8. Перенаправление домена/поддомена на ip адрес сервера
 Чтобы сервер был доступен по доменному имени, в панели управления хостинга в редакторе DNS зон необходимо создать запись.
 Добавьте новую запись со следующими параметрами: 
 * имя: YOURS_INTERNET_URL.RU.    **точка в конце обязательна!**
 * тип: A значение (IP/host.) 
 * IP-адрес сервера : server ip
 
-#### 10. Get the certificate / Получение сертификата
+#### 9. Get the certificate / Получение сертификата
 	
 ```	
 sudo apt-get install certbot
@@ -336,3 +316,33 @@ check startup nginx / проверка запуска ngnix
 
 ### NightScout must be available at https://YOURS_INTERNET_URL.RU
 ### NightScout доступен по адресу https://YOURS_INTERNET_URL.RU
+
+ANNEX
+
+####  Installation of hypervisor integration servcies / Установка средств интеграции с гипервизором (не обязательно)
+
+
+##### Hyper-V install integration services / Hyper-V средства интеграции
+
+```
+nano /etc/initramfs-tools/modules
+```
+add strings/добавляем строки
+```
+hv_vmbus
+hv_storvsc
+hv_blkvsc
+hv_netvsc
+```
+save file/сохраняем `ctrl+x`
+```
+sudo apt-get -y install hyperv-daemons
+update-initramfs -u
+reboot
+```
+##### Vmware  tools / Vmware средства интеграции
+```
+apt-get install -y open-vm-tools open-vm-tools-desktop
+vmware-user-suid-wrapper
+reboot
+```
