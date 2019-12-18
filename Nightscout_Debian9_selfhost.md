@@ -348,7 +348,7 @@ reboot
 * IP-адрес сервера : server ip
 
 #### ANNEX B
-#### Update Nightscout / обновление версии Найстскаута
+#### Update Nightscout / обновление версии Найтскаута
 
 ````
 git reset --hard
