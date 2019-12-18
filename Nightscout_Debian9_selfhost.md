@@ -346,3 +346,12 @@ reboot
 * имя: YOURS_INTERNET_URL.RU.    **точка в конце обязательна!**
 * тип: A значение (IP/host.) 
 * IP-адрес сервера : server ip
+
+#### ANNEX B
+#### Update Nightscout / обновление версии Найстскаута
+
+````
+git reset --hard
+git checkout master && git pull
+sudo npm install --unsafe-perm
+````
