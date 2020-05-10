@@ -106,9 +106,9 @@ If you want - add to global environment - nano /etc/environment or create you ow
 ```
 #!/bin/bash
 export DISPLAY_UNITS="mg/dl"
-export MONGO_CONNECTION="mongodb://username:password@localhost:27017/Nightscout"
+export MONGO_CONNECTION="mongodb://username:password@localhost:27017/ИмяСозданнойБД" //данные из установки Mongo
 export PORT=1337
-export API_SECRET="Api_Secret_min_12_symbols"
+export API_SECRET="Api_Secret_min_12_symbols" // задаем свой пароль к Nightscout
 export PUMP_FIELDS="reservoir battery status"
 export DEVICESTATUS_ADVANCED=true
 export ENABLE="careportal basal cage sage boluscalc rawbg iob bwp bage mmconnect bridge openaps pump iob maker"
